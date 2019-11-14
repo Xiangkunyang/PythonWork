@@ -1,0 +1,25 @@
+import os
+import prettytable
+# python检索文件系统，表格输出每层的文件个数及层级
+def getDir(fileDir) :
+    
+    tb = prettytable.PrettyTable()
+    tb.field_names = ["目录名称","当前层级","文件数量"]
+    tb1 = prettytable.PrettyTable()
+    tb1.field_names = ["当前层级","文件数量"]
+    index = - (fileDir.count(os.sep)) + 1
+    total = {}
+    for root, dirs, files in os.walk(fileDir) :
+        level = root.count(os.sep) + index
+        try:
+            total [str(level)] =  total [str(level)]  +len(files)
+        except:
+            total [str(level)] =  len(files)
+        tb.add_row([root,level, len(files)])
+    print(tb)
+    for key in total:
+        tb1.add_row([key,  total [str(key)]])
+    print(tb1)
+    
+fileDir = "F:" + os.sep + 'training' + os.sep + 'pythonsource' # 这里是路径
+getDir(fileDir)
